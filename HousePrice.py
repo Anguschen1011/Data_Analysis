@@ -7,17 +7,17 @@ from IPython.display import Image
 import pandas as pd
 import numpy as np
 
-# 印出原始數據框的大小
+# Print the size of the original dataframe
 df = pd.read_csv('/Users/anguschen/Desktop/Data/data/housing.csv')
 print("原始大小:\n", df.shape, end="\n\n")
 
 
-# 檢查數據框中是否存在缺失值（NAN值），並將包含缺失值的行印出
+# Check for missing values (NAN values) in the dataframe and print rows with missing values
 nan_rows = df[df.isnull().any(axis=1)]
 print("有NAN值的row(前五行):\n", nan_rows, end="\n\n")
 
 
-# 這部分程式碼將刪除包含缺失值的行，從而清理數據。然後它印出已刪除缺失值後的數據框的大小
+# This part of the code will remove rows with missing values, cleaning the data. Then it prints the size of the dataframe after removing missing values
 df = df.dropna()
 print("去除NAN值的大小:\n", df.shape, end="\n\n")
 
@@ -25,18 +25,18 @@ print("去除NAN值的大小:\n", df.shape, end="\n\n")
 Y = df['ocean_proximity']
 X = df.drop(['ocean_proximity'], axis=1)
 
-# 數據劃分為訓練集(80%)和測試集(20%)
+# Split the data into training set (80%) and test set (20%)
 X_train, X_test, Y_train, Y_test = train_test_split(X,Y,train_size=0.8, random_state=5)
 
-# 創建一個決策樹
+# Create a decision tree
 tree = DecisionTreeClassifier(criterion='entropy', max_depth=10)
 
-# 使用訓練數據（X_train, Y_train）來訓練決策樹模型
+# Train the decision tree model using the training data (X_train, Y_train)
 tree.fit(X_train, Y_train)
 
 excepted = Y_test
 
-# 使用訓練模型（tree）對測試數據集（X_test）進行預測
+# Use the trained model (tree) to predict the test dataset (X_test)
 predicted = tree.predict(X_test)
 
 print("混淆矩陣:\n", metrics.confusion_matrix(excepted, predicted), end="\n\n")
